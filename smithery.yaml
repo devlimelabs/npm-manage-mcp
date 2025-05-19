@@ -1,0 +1,50 @@
+# Smithery AI Configuration for NPM Manage MCP
+smithery_version: "1.0"
+
+# Docker configuration
+docker:
+  build:
+    dockerfile: Dockerfile
+    context: .
+  
+# Basic metadata
+metadata:
+  name: npm-manage-mcp
+  description: MCP server for managing NPM packages through AI assistants
+  version: 0.1.0
+  author: DevLime Labs
+  tags:
+    - mcp
+    - npm
+    - package-management
+    - node
+
+# Build configuration
+build:
+  steps:
+    - name: Install dependencies
+      command: pnpm install --frozen-lockfile
+    - name: Build
+      command: pnpm build
+    - name: Test
+      command: pnpm test
+      
+# Runtime configuration
+runtime:
+  command: ["node", "dist/bin.js"]
+  
+# Environment variables (if needed)
+environment:
+  NODE_ENV: production
+
+# Resources
+resources:
+  cpu: 256
+  memory: 512
+
+# Health check
+healthcheck:
+  test: ["CMD", "node", "-e", "process.exit(0)"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
